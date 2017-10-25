@@ -106,3 +106,14 @@ if(${SHADERC_ENABLE_TESTS})
   target_link_libraries(shaderc_c_smoke_test PRIVATE shaderc)
   add_test(NAME shaderc_c_smoke_test COMMAND shaderc_c_smoke_test)
 endif()
+
+if(EMSCRIPTEN)
+  set(CMAKE_CXX_STANDARD 11)
+  add_executable(shaderc.js shaderc.js.cpp)
+  target_link_libraries(shaderc.js shaderc_combined)
+  target_include_directories(shaderc.js PUBLIC include PRIVATE ${glslang_SOURCE_DIR})
+  set_target_properties(shaderc.js PROPERTIES
+    OUTPUT_NAME "shaderc"
+    SUFFIX ".js"
+    LINK_FLAGS "--bind")
+endif()

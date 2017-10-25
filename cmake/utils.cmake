@@ -187,9 +187,20 @@ function(shaderc_combine_static_lib new_target target)
         CONTENT ${build_script_file}
         CONDITION 1)
 
+    set(ar_command ${CMAKE_AR})
+    if(EMSCRIPTEN)
+      # HACK(kainino0x): emar doesn't support -M. But it's just a wrapper
+      # around llvm-ar, which does. This hack tries to find llvm-ar, and use
+      # it instead of CMAKE_AR.
+      get_filename_component(em_ar_dir "${CMAKE_AR}" DIRECTORY)
+      get_filename_component(em_version "${ar_dir}" NAME)
+      set(ar_glob "${em_ar_dir}/../../clang/*${em_version}*/llvm-ar")
+      file(GLOB ar_glob_results ${ar_glob})
+      list(GET ar_glob_results 0 ar_command)
+    endif()
     add_custom_command(OUTPUT  ${libname}
       DEPENDS ${all_libs}
-      COMMAND ${CMAKE_AR} -M < ${new_target}.ar)
+      COMMAND ${ar_command} -M < ${new_target}.ar)
   endif()
 
   add_custom_target(${new_target}_genfile ALL
