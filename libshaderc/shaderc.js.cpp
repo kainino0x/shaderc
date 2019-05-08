@@ -30,6 +30,9 @@ EMSCRIPTEN_BINDINGS(shaderc) {
 
     class_<CompileOptions>("CompileOptions")
         .constructor<>()
+        .function("SetGenerateDebugInfo", &CompileOptions::SetGenerateDebugInfo)
+        .function("SetOptimizationLevel", &CompileOptions::SetOptimizationLevel)
+        .function("SetTargetEnvironment", &CompileOptions::SetTargetEnvironment)
         ;
 
     class_<Compiler>("Compiler")
@@ -57,5 +60,23 @@ EMSCRIPTEN_BINDINGS(shaderc) {
         .value("vertex", shaderc_vertex_shader)
         .value("fragment", shaderc_fragment_shader)
         .value("compute", shaderc_compute_shader)
+        ;
+
+    enum_<shaderc_optimization_level>("optimization_level")
+        .value("zero", shaderc_optimization_level_zero)
+        .value("size", shaderc_optimization_level_size)
+        .value("performance", shaderc_optimization_level_performance)
+        ;
+
+    enum_<shaderc_target_env>("target_env")
+        .value("vulkan", shaderc_target_env_vulkan)
+        .value("opengl", shaderc_target_env_opengl)
+        .value("opengl_compat", shaderc_target_env_opengl_compat)
+        ;
+
+    enum_<shaderc_env_version>("env_version")
+        .value("vulkan_1_0", shaderc_env_version_vulkan_1_0)
+        .value("vulkan_1_1", shaderc_env_version_vulkan_1_1)
+        .value("opengl_4_5", shaderc_env_version_opengl_4_5)
         ;
 }

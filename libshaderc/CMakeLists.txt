@@ -115,5 +115,5 @@ if(EMSCRIPTEN)
   set_target_properties(shaderc.js PROPERTIES
     OUTPUT_NAME "shaderc"
     SUFFIX ".js"
-    LINK_FLAGS "--bind")
+    LINK_FLAGS "--bind -s ALLOW_MEMORY_GROWTH=1")
 endif()
