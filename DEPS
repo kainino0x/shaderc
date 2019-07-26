@@ -3,6 +3,7 @@ use_relative_paths = True
 vars = {
   'google_git':  'https://github.com/google',
   'khronos_git': 'https://github.com/KhronosGroup',
+  'kainino0x_git': 'https://github.com/KhronosGroup',
 
   'effcee_revision' : '8f0a61dc95e0df18c18e0ac56d83b3fa9d2fe90b',
   'glslang_revision': 'ef807f4bc543e061f25dbbee6cb64dd5053b2adc',
@@ -29,7 +30,7 @@ deps = {
   'third_party/spirv-headers': vars['khronos_git'] + '/SPIRV-Headers.git@' +
       vars['spirv_headers_revision'],
 
-  'third_party/spirv-tools': vars['khronos_git'] + '/SPIRV-Tools.git@' +
+  'third_party/spirv-tools': vars['kainino0x_git'] + '/SPIRV-Tools.git@' +
       vars['spirv_tools_revision'],
 
   'third_party/spirv-cross': vars['khronos_git'] + '/SPIRV-Cross.git@' +
