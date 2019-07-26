@@ -109,11 +109,24 @@ endif()
 
 if(EMSCRIPTEN)
   set(CMAKE_CXX_STANDARD 11)
+  add_compile_options(-Os -fno-exceptions)
+  add_compile_options("SHELL: -s WASM=1")
+  add_compile_options("SHELL: -s WASM_OBJECT_FILES=0")
   add_executable(shaderc.js shaderc.js.cpp)
   target_link_libraries(shaderc.js shaderc_combined)
   target_include_directories(shaderc.js PUBLIC include PRIVATE ${glslang_SOURCE_DIR})
   set_target_properties(shaderc.js PROPERTIES
     OUTPUT_NAME "shaderc"
     SUFFIX ".js"
-    LINK_FLAGS "--bind -s ALLOW_MEMORY_GROWTH=1")
+    LINK_FLAGS " \
+      --bind \
+      -Os \
+      -s ALLOW_MEMORY_GROWTH=1 \
+      -s FILESYSTEM=0 \
+      -s ENVIRONMENT=web,worker \
+      -s ALLOW_MEMORY_GROWTH=1 \
+      -s SINGLE_FILE=1 \
+      --closure 1 \
+      --llvm-lto 1 \
+      ")
 endif()
